@@ -22,6 +22,7 @@ class Solution {
 ```
 
 
+
 [1004. Max Consecutive Ones III](https://leetcode.com/problems/max-consecutive-ones-iii/)
 
 ```java
@@ -42,6 +43,7 @@ class Solution {
     }
 }
 ```
+
 
 
 [Find length of the longest subarray containing at most two distinct integers](https://www.geeksforgeeks.org/problems/fruit-into-baskets-1663137462/1)
@@ -72,6 +74,7 @@ lass Solution {
 ```
 
 
+
 [424. Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
 
 ```java
@@ -97,6 +100,7 @@ class Solution {
 ```
 
 
+
 [930. Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/)
 
 ```java
@@ -116,6 +120,7 @@ class Solution {
     }
 }
 ```
+
 
 
 [1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
@@ -142,6 +147,7 @@ class Solution {
 ```
 
 
+
 [1358. Number of Substrings Containing All Three Characters](https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/)
 
 ```java
@@ -159,6 +165,7 @@ class Solution {
     }
 }
 ```
+
 
 
 [1423. Maximum Points You Can Obtain from Cards](https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/)
@@ -182,6 +189,32 @@ class Solution {
     }
 }
 ```
+
+
+
+[3191. Minimum Operations to Make Binary Array Elements Equal to One I](https://leetcode.com/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-i/)
+
+```java
+class Solution {
+    public int minOperations(int[] nums) {
+        Map<Integer,Integer> map =new HashMap<>();
+        int count=0;
+       for (int i = 0; i < nums.length - 2; i++) {  
+            if (nums[i]==0) {  
+                nums[i]=1;
+                nums[i+1]^=1;
+                nums[i+2]^=1;
+                count++;
+            }
+        }
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0) return -1;
+        }
+        return count;
+    }
+}
+```
+
 
 
 [992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
@@ -210,4 +243,45 @@ class Solution {
         return validSubArray(nums,k)-validSubArray(nums,k-1);
     }
 }
+```
+
+
+
+[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+
+```java
+class Solution {
+    public String minWindow(String s, String t) {
+        if (s.length() < t.length()) return "";
+        int[] hash = new int[256];
+        for (char c : t.toCharArray()) {
+            hash[c]++;
+        }
+        int left = 0, right = 0, minLength = Integer.MAX_VALUE;
+        int startIndex = -1, required = t.length(), formed = 0;
+
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            if (hash[c] > 0) {
+                formed++;
+            }
+            hash[c]--;
+            while (formed == required) {
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    startIndex = left;
+                }
+               char leftChar = s.charAt(left);
+                hash[leftChar]++;                
+                if (hash[leftChar] > 0) {
+                    formed--;
+                }
+                left++; 
+            }
+            right++;
+        }
+        return (minLength == Integer.MAX_VALUE) ? "" : s.substring(startIndex, startIndex + minLength);
+    }
+}
+
 ```
